@@ -1,0 +1,5 @@
+GPU=B200 TIMEOUT=480 uvx --python 3.12 --with pandas modal run modal_boltzgen.py \
+  --input-yaml pdl1_mb.yaml \
+  --protocol protein-anything \
+  --num-designs 10000 \
+  --designs-per-gpu 1000

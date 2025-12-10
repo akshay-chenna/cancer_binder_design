@@ -1,0 +1,9 @@
+{
+    "design_path": "./out_model_0_neo_2/",
+    "binder_name": "model_0_neo",
+    "starting_pdb": "./model_0_neo.pdb",
+    "chains": "A,B",
+    "target_hotspot_residues": "A4-8,B66,B69-71,B73-74,B97,B116,B146-147,B150,B152,B155-156,B159",
+    "lengths": [60, 150],
+    "number_of_final_designs": 100
+}

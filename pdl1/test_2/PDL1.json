@@ -1,0 +1,9 @@
+{
+    "design_path": "./",
+    "binder_name": "PDL1",
+    "starting_pdb": "./PDL1.pdb",
+    "chains": "A",
+    "target_hotspot_residues": "56",
+    "lengths": [40, 180],
+    "number_of_final_designs": 2
+}

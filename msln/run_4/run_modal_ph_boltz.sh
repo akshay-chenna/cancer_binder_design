@@ -1,0 +1,20 @@
+VOLUME_NAME=msln_run4
+
+VOLUME_NAME=${VOLUME_NAME} TIMEOUT_MINUTES=1400 GPU=H100 uvx modal run modal_proteinhunter.py \
+	--protein-seqs EVEKTACPSGKKAREIDESLIFYKKWELEACVDAALLATQMDRVNAIPFTYEQLDVLKHKLDELYPQGYPESVIQHLGYLFLKMSPEDIRKWNVTSLETLKALLEVNKGHEMSPQVATLIDRFVKGRGQLDKDTLDTLTAFYPGYLCSLSPEELSSVPPSSIWAVRPQDLDTCDPRQLDVLYPKARLAFQNMNGSEYFVKIQSFLGGAPTEDLKALSQQNVSMDLATFMKLRTDAVLPLTVAEVQKLLGPHVEGLKAEERHRPVRDWILRQRQDDLDTLGLGLQGGIPNGYLVLDLSMQEALSGTPCLLGPGPVLTVLALLLASTLA \
+	--protein-ids B \
+	--protein-msas "" \
+	--template-path af3_MSLN.cif \
+	--template-cif-chain-id A \
+	--binder-chain A \
+	--min-design-protein-length 50 \
+	--max-design-protein-length 150 \
+	--high-iptm-threshold 0.7 \
+        --contact-residues "287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303" \
+        --use-potentials \
+	--num-designs 1000 \
+	--num-cycles 20 \
+	--num-gpus 50 \
+	--name ${VOLUME_NAME}
+
+uvx modal volume get $VOLUME_NAME / volume_data --force

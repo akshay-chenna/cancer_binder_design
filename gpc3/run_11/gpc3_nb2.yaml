@@ -1,0 +1,21 @@
+entities:
+  - file:
+      path: ./correct_uniprot_gpc3_59-477_renum.pdb
+      include:
+        - chain:
+            id: A
+      binding_types:
+        - chain:
+            id: A
+            binding: 232,242,243,404,405
+      structure_groups:
+          - group:
+              visibility: 0
+              id: A
+              res_index: 1..166,191..229,254..328,350..400,419
+  - file:
+      path: 
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/7eow.yaml
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/7xl0.yaml
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/8coh.yaml
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/8z8v.yaml

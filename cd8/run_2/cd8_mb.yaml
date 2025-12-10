@@ -1,0 +1,11 @@
+entities:
+  - protein:
+      id: C
+      sequence: 60..145
+  - file:
+      path: ./af3_cd8ab_ecto_nosignalp_model_0_tidy.pdb
+      include:
+        - chain:
+            id: A
+        - chain:
+            id: B

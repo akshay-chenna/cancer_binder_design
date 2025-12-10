@@ -1,0 +1,9 @@
+{
+    "design_path": "./out_x02/",
+    "binder_name": "x02",
+    "starting_pdb": "./x02.pdb",
+    "chains": "A,B",
+    "target_hotspot_residues": "A4-8",
+    "lengths": [60, 150],
+    "number_of_final_designs": 100
+}

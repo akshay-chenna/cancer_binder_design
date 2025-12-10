@@ -1,0 +1,9 @@
+{
+    "design_path": "./out_1/",
+    "binder_name": "gpc3_out_1",
+    "starting_pdb": "./trimmed_af3_model_0.pdb",
+    "chains": "A",
+    "target_hotspot_residues": "",
+    "lengths": [60, 150],
+    "number_of_final_designs": 100
+}

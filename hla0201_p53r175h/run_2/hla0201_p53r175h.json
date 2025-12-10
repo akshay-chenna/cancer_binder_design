@@ -1,0 +1,9 @@
+{
+    "design_path": "./out",
+    "binder_name": "hla0201_p53r175h",
+    "starting_pdb": "./6W51_AC_cleaned.pdb",
+    "chains": "A,B",
+    "target_hotspot_residues": "A73,A76,A77,A80,A81,A84,A143,A146,A147,A150,A152,B7,B8,B9",
+    "lengths": [60, 142],
+    "number_of_final_designs": 100
+}

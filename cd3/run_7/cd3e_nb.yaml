@@ -1,0 +1,16 @@
+entities:
+  - file:
+      path: ./cd3e_cl_00_renum.pdb
+      include:
+        - chain:
+            id: A
+      binding_types:
+        - chain:
+            id: A
+            binding: 4,15,18,21,46,50
+  - file:
+      path: 
+        - ./7eow.yaml
+        - ./7xl0.yaml
+        - ./8coh.yaml
+        - ./8z8v.yaml

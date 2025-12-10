@@ -1,0 +1,1 @@
+pdb_reres -1 correct_uniprot_gpc3_hotspot2.pdb > correct_uniprot_gpc3_hotspot2_renum.pdb

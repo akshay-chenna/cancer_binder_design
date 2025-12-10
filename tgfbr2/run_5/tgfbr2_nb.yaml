@@ -1,0 +1,16 @@
+entities:
+  - file:
+      path: 1KTZ_tgfbr2_cleaned_renum.pdb
+      include:
+        - chain:
+            id: A
+      binding_types:
+        - chain:
+            id: A
+            binding: 3,24..29,94,95
+  - file:
+      path: 
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/7eow.yaml
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/7xl0.yaml
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/8coh.yaml
+        - /paperspace/apps/boltzgen/example/nanobody_scaffolds/8z8v.yaml

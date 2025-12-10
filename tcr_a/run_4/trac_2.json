@@ -1,0 +1,9 @@
+{
+    "design_path": "./out_2/",
+    "binder_name": "trac_hotspots",
+    "starting_pdb": "./6jxr_trac_134-228_renum_cleaned.pdb",
+    "chains": "A",
+    "target_hotspot_residues": "31,33,70,71,75,76,81,86,87",
+    "lengths": [60, 150],
+    "number_of_final_designs": 1000
+}

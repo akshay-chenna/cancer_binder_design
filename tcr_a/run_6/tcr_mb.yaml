@@ -1,0 +1,13 @@
+entities:
+  - protein:
+      id: B
+      sequence: 60..150
+  - file:
+      path: ./6jxr_trac_134-228_renum_cleaned.pdb
+      include:
+        - chain:
+            id: A
+      binding_types:
+        - chain:
+            id: A
+            binding: 31,33,70,71,75,76,81,86,87

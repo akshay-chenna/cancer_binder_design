@@ -1,0 +1,9 @@
+{
+    "design_path": "./out_1/",
+    "binder_name": "gpc3_hotspot_1",
+    "starting_pdb": "./correct_uniprot_gpc3_hotspot2.pdb",
+    "chains": "A",
+    "target_hotspot_residues": "301,467,471,393,400",
+    "lengths": [60, 150],
+    "number_of_final_designs": 100
+}

@@ -1,0 +1,9 @@
+{
+    "design_path": "./out_hotspots_1/",
+    "binder_name": "8CX3_A_cleaned",
+    "starting_pdb": "./8CX3_A_cleaned.pdb",
+    "chains": "A",
+    "target_hotspot_residues": "",
+    "lengths": [10, 30],
+    "number_of_final_designs": 100
+}
