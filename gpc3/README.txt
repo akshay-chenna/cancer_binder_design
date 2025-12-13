@@ -104,14 +104,26 @@ Hotspot type 2: Same as in run_14 (from SAP score). 232,242,243,404,405 (renumbe
 PDB to use: correct_uniprot_gpc3_59-477_renum.pdb (renumbered)
 
 18. run_18:
+BEST IS TO IGNORE THIS RUN. PREFER RUN_21 INSTEAD.
 RFD3 minibinder using correct_uniprot_gpc3_59-477_renum.pdb (renumbered from 1).
 Hotspot type 1: Same as in run_12 (from SAP score). 67,71,147,153,156,275 (renumbered)
 5000 designs
 
 19. run_19:
+BEST IS TO IGNORE THIS RUN. PREFER RUN_22 INSTEAD.
 RFD3 minibinder using correct_uniprot_gpc3_59-477_renum.pdb (renumbered from 1).
 Hotspot type 2: Same as in run_14 (from SAP score). 232,242,243,404,405 (renumbered)
 2000 designs
 
 20. run_20:
 RFAntibody using YP7 scaffold.
+
+21. run_21:
+RFD3 minibinder using correct_uniprot_gpc3_59-477_renum.pdb (renumbered from 1).
+Hotspot type 1: Same as in run_12 (from SAP score). 67,71,147,153,156,275 (renumbered)
+10000 designs. MPNN temperature from RFD1 SI. SolubleMPNN weights. n_mpnn=6, larger minibinders=80-200
+
+22. run_22:
+RFD3 minibinder using correct_uniprot_gpc3_59-477_renum.pdb (renumbered from 1).
+Hotspot type 2: Same as in run_14 (from SAP score). 232,242,243,404,405 (renumbered)
+10000 designs. MPNN temperature from RFD1 SI. SolubleMPNN weights. n_mpnn=6, larger minibinders=80-200
