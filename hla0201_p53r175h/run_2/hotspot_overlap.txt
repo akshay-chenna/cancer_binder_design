@@ -30,8 +30,8 @@ out/Accepted/hla0201_p53r175h_l124_s800564_mpnn4_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l124_s800564_mpnn7_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l125_s536731_mpnn1_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l125_s536731_mpnn2_model1.pdb 	 0.0 	 0.0
-out/Accepted/hla0201_p53r175h_l127_s680225_mpnn1_model2.pdb 	 0.42857142857142855 	 0.0
-out/Accepted/hla0201_p53r175h_l127_s680225_mpnn3_model2.pdb 	 0.42857142857142855 	 0.0
+out/Accepted/hla0201_p53r175h_l127_s680225_mpnn1_model2.pdb 	 0.5714285714285714 	 0.6666666666666666
+out/Accepted/hla0201_p53r175h_l127_s680225_mpnn3_model2.pdb 	 0.5714285714285714 	 0.6666666666666666
 out/Accepted/hla0201_p53r175h_l127_s776145_mpnn1_model1.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l127_s776145_mpnn2_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l128_s461163_mpnn1_model2.pdb 	 0.0 	 0.0
@@ -43,8 +43,8 @@ out/Accepted/hla0201_p53r175h_l130_s821676_mpnn1_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l130_s821676_mpnn2_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l131_s945698_mpnn1_model1.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l131_s945698_mpnn3_model2.pdb 	 0.0 	 0.0
-out/Accepted/hla0201_p53r175h_l131_s972135_mpnn1_model2.pdb 	 0.35714285714285715 	 0.0
-out/Accepted/hla0201_p53r175h_l131_s972135_mpnn2_model2.pdb 	 0.42857142857142855 	 0.0
+out/Accepted/hla0201_p53r175h_l131_s972135_mpnn1_model2.pdb 	 0.5 	 0.6666666666666666
+out/Accepted/hla0201_p53r175h_l131_s972135_mpnn2_model2.pdb 	 0.5714285714285714 	 0.6666666666666666
 out/Accepted/hla0201_p53r175h_l134_s294270_mpnn10_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l134_s294270_mpnn5_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l135_s109060_mpnn7_model2.pdb 	 0.0 	 0.0
@@ -54,8 +54,8 @@ out/Accepted/hla0201_p53r175h_l138_s231670_mpnn16_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l138_s231670_mpnn2_model1.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l140_s224636_mpnn1_model2.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l140_s224636_mpnn3_model1.pdb 	 0.0 	 0.0
-out/Accepted/hla0201_p53r175h_l141_s277991_mpnn2_model2.pdb 	 0.2857142857142857 	 0.0
-out/Accepted/hla0201_p53r175h_l141_s277991_mpnn3_model2.pdb 	 0.2857142857142857 	 0.0
+out/Accepted/hla0201_p53r175h_l141_s277991_mpnn2_model2.pdb 	 0.35714285714285715 	 0.3333333333333333
+out/Accepted/hla0201_p53r175h_l141_s277991_mpnn3_model2.pdb 	 0.35714285714285715 	 0.3333333333333333
 out/Accepted/hla0201_p53r175h_l62_s729859_mpnn6_model1.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l62_s729859_mpnn7_model1.pdb 	 0.0 	 0.0
 out/Accepted/hla0201_p53r175h_l65_s480013_mpnn5_model1.pdb 	 0.0 	 0.0
