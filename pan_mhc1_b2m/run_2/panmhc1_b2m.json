@@ -1,0 +1,9 @@
+{
+    "design_path": "./out",
+    "binder_name": "panmhc1b2m",
+    "starting_pdb": "./7uc5_cleaned_renum.pdb",
+    "chains": "A,B",
+    "target_hotspot_residues": "B46,B85,B87,B92,B93",
+    "lengths": [60, 200],
+    "number_of_final_designs": 2
+}

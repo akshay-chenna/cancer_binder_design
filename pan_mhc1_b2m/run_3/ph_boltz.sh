@@ -1,0 +1,12 @@
+python ~/apps/Protein-Hunter/boltz_ph/design.py \
+	--protein_seqs IQRTPKIQVYSRHPAENGKSNFLNCYVSGFHPSDIEVDLLKNGERIEKVEHSDLSFSKDWSFYLLYYTEFTPTEKDEYACRVNHVTLSQPKIVKWDRDM:GSHSMRYFFTSVSRPGRGEPRFIAVGYVDDTQFVRFDSDAASQRMEPRAPWIEQEGPEYWDQETRNVKAQSQTDRVDLGTLRGYYNQSEAGSHTIQIMYGCDVGSDGRFLRGYRQDAYDGKDYIALNEDLRSWTAADMAAQITKRKWEAAHEAEQLRAYLDGTCVEWLRRYLENGKETLQRTDPPKTHMTHHPISDHEATLRCWALGFYPAEITLTWQRDGEDQTQDTELVETRPAGDGTFQKWAAVVVPSGEEQRYTCHVQHEGLPKPLTLRWELS \
+	--template_path /paperspace/Desktop/cancer/pan_mhc1_b2m/structures/7UC5.cif,/paperspace/Desktop/cancer/pan_mhc1_b2m/structures/7UC5.cif \
+	--template_cif_chain_id B,A \
+	--msa_mode single \
+	--min_protein_length 60 \
+	--max_protein_length 200 \
+	--high_iptm_threshold 0.7 \
+	--contact_residues '46,85,87,92,93' \
+	--num_designs 2 \
+	--num_cycles 15 \
+	--name test
