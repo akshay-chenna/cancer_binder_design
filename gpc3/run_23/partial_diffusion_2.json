@@ -1,0 +1,13 @@
+{
+    "specification": {
+        "dialect": 2,
+	"input": "/paperspace/Desktop/cancer/gpc3/run_23/gpc3_out_1_l108_s599292_mpnn3_model2_relaxed.pdb",
+        "contig": "A1-291,/0,B1-108",
+        "select_fixed_atoms": "A1-291",
+        "select_unfixed_sequence": "B1-108",
+        "is_non_loopy": true,
+        "infer_ori_strategy": "hotspots",
+        "select_hotspots": "A36,A48,A59,A81,A86,A89,A99",
+        "partial_t": 25
+    }
+}

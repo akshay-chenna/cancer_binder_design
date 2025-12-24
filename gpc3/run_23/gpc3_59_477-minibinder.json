@@ -1,0 +1,14 @@
+[
+    {
+        "name": "gpc3_59_477_renum-minibinder",
+        "components": [
+            {
+                "path": "/paperspace/Desktop/cancer/gpc3/run_23/correct_uniprot_gpc3_59-477_renum.pdb"
+            },
+            {
+                "path": "/paperspace/Desktop/cancer/gpc3/run_23/minibinder_l108_s599292_mpnn3_model2_relaxed.pdb"
+            }
+        ],
+        "template_selection": ["A", "B"]
+    }
+]
