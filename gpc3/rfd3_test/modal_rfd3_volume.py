@@ -34,6 +34,7 @@ image = (
 with image.imports():
     import json
     import subprocess
+    import shutil
     import numpy as np
     import pandas as pd
     from pathlib import Path
@@ -50,9 +51,11 @@ with image.imports():
     from atomworks.constants import PROTEIN_BACKBONE_ATOM_NAMES
     from atomworks.io.utils.io_utils import to_cif_file
 
+    import gc
+    import torch
 
 app = App("RFD3", image=image)
-volume = Volume.from_name(VOLUME_NAME, create_if_missing=True)
+volume = Volume.from_name(VOLUME_NAME, create_if_missing=True, version = 2)
 
 @app.function(gpu=GPU, timeout=TIMEOUT, volumes={"/data": volume})
 def run_parallel(
@@ -60,8 +63,8 @@ def run_parallel(
     contig: str,
     hotspots: str,
     n_mpnn: int,
-    fixed_chains: str,
-    designable_chains: str,
+    fixed_chains: list[str],
+    designable_chains: list[str],
     num_designs_per_job: int,
     job_idx: int):
 
@@ -122,7 +125,7 @@ def run_parallel(
             {
                 "batch_size": n_mpnn,
                 "remove_waters": True,
-                "fixed_chains": [fixed_chains],
+                "fixed_chains": fixed_chains,
                 "temperature": 0.0001,
             }
         ]
@@ -131,7 +134,7 @@ def run_parallel(
         mpnn_outputs = model.run(input_dicts=input_configs, atom_arrays=[atom_array])
 
         aa_generated = atom_array              # Original RFD3 backbone (from Section 1)
-        bb_generated = aa_generated[np.isin(aa_generated.atom_name, PROTEIN_BACKBONE_ATOM_NAMES)]
+        bb_generated = aa_generated[np.isin(aa_generated.atom_name, ['N','CA','C','O'])]
         bb_binder_generated = bb_generated[np.isin(bb_generated.chain_id,designable_chains)]
         bb_target_generated = bb_generated[np.isin(bb_generated.chain_id,fixed_chains)]
 
@@ -141,7 +144,7 @@ def run_parallel(
         def run_rf3(mpnn_atom_array,mpnn_id):
             inference_engine = RF3InferenceEngine(ckpt_path='rf3', verbose=False)
 
-            input_structure = InferenceInput.from_atom_array(mpnn_atom_array, example_id="binder", template_selection=[fixed_chains])
+            input_structure = InferenceInput.from_atom_array(mpnn_atom_array, example_id="binder", template_selection=fixed_chains)
             rf3_outputs = inference_engine.run(inputs=input_structure)
 
             rf3_output = rf3_outputs["binder"][0] #Picks the best structure
@@ -151,7 +154,7 @@ def run_parallel(
             # Export structures to CIF format for visualization in PyMOL/ChimeraX
             to_cif_file(aa_refolded, f"{folder_path}/{idx}_mpnn_{mpnn_id}_refolded.cif")
 
-            bb_refolded = aa_refolded[np.isin(aa_refolded.atom_name,PROTEIN_BACKBONE_ATOM_NAMES)]
+            bb_refolded = aa_refolded[np.isin(aa_refolded.atom_name,['N','CA','C','O'])]
             bb_binder_refolded = bb_refolded[np.isin(bb_refolded.chain_id,designable_chains)]
             bb_target_refolded = bb_refolded[np.isin(bb_refolded.chain_id,fixed_chains)]
 
@@ -192,6 +195,22 @@ def run_parallel(
             struct_idx,
             job_idx,
         )
+        gc.collect()
+        torch.cuda.empty_cache()
+
+@app.function(volumes={"/data": volume})
+def merge_all_files():
+    data_dir = Path("/data")
+    all_jobs_dir = data_dir / "all_jobs"
+    all_jobs_dir.mkdir(exist_ok=True)
+
+    # Move files from job_* directories to all_jobs
+    for job_dir in data_dir.glob("job_*"):
+        if job_dir.is_dir() and job_dir.name != "all_jobs":
+            for file_path in job_dir.iterdir():
+                shutil.move(str(file_path), str(all_jobs_dir / file_path.name))
+            shutil.rmtree(job_dir)
+
 
 @app.local_entrypoint()
 def main(
@@ -210,6 +229,9 @@ def main(
     num_jobs = num_gpus
     num_designs_per_job = num_designs // num_jobs
 
+    fixed_chains = fixed_chains.split(",")
+    designable_chains = designable_chains.split(",")
+
     for outputs in run_parallel.starmap(
         [
             (
@@ -227,3 +249,6 @@ def main(
         order_outputs=False,
     ):
         print("Completed RFD3, MPNN, and RF3 job(s).")
+
+    merge_all_files.remote()
+    print("Files merged")

@@ -1,5 +1,5 @@
 VOLUME_NAME=gpc3_test
-VOLUME_NAME=$VOLUME_NAME TIMEOUT_MINUTES=1400 GPU=H100 uvx modal run modal_rfd3_volume.py \
+VOLUME_NAME=$VOLUME_NAME TIMEOUT_MINUTES=1400 GPU=L40S uvx modal run modal_rfd3_volume.py \
 	--pdb-in correct_uniprot_gpc3_59-477_renum.pdb \
     	--contig "50-150,/0,A1-419" \
    	--hotspots "A67,A71,A147,A153,A156,A275" \
@@ -8,4 +8,5 @@ VOLUME_NAME=$VOLUME_NAME TIMEOUT_MINUTES=1400 GPU=H100 uvx modal run modal_rfd3_
 	--designable-chains "A" \
     	--num-designs 4 \
     	--num-gpus 2
-#uvx modal volume get $VOLUME_NAME / volume_data --force
+mkdir volume_data
+uvx modal volume get $VOLUME_NAME / volume_data --force

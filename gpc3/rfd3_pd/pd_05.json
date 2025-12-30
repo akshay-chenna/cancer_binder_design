@@ -1,0 +1,9 @@
+{
+    "7nei": {
+        "input": "./7nei_A.pdb",
+        "partial_t": 0.5,
+        "select_fixed_atoms": false,
+        "select_unfixed_sequence": false
+    }
+}
+

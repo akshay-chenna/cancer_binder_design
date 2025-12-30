@@ -58,6 +58,7 @@ with image.imports():
     import gemmi
     import numpy as np
     import polars as pl
+    from tempfile import NamedTemporaryFile
 
 
 def get_binder_seq(structure_path: Path, chain: str) -> str:
@@ -69,7 +70,6 @@ def get_binder_seq(structure_path: Path, chain: str) -> str:
         )
     return gemmi.one_letter_code([res.name for res in structure[0][chain]])
 
-
 @app.function(volumes = {VOLUME_MOUNT: vol})
 def list_pdbs(path: str, glob_str: str = "*.pdb") -> list[str]:
     full_path = Path(VOLUME_MOUNT) / path.lstrip("/")
@@ -77,18 +77,9 @@ def list_pdbs(path: str, glob_str: str = "*.pdb") -> list[str]:
         raise FileNotFoundError(f"Path {full_path} does not exist on volume.")
     return [str(f.relative_to(VOLUME_MOUNT)) for f in full_path.glob(glob_str)]
 
-
-def calc_min_ipae(model) -> float:
-    pae = model.aux["pae"]
-    target_len = model._target_len
-    min_target_binder_pae = pae[: target_len, target_len :].min(-1).mean()
-    min_binder_target_pae = pae[target_len :, : target_len].min(-1).mean()
-    return np.mean([min_target_binder_pae, min_binder_target_pae]).item()
-
-
 @app.function(gpu = GPU, timeout = TIMEOUT_MINUTES * 60, volumes = {VOLUME_MOUNT: vol})
 def worker(
-    pdb_rel_paths: list[str],
+    structure_rel_paths: list[str],
     binder_chain: str,
     target_chain: str,
     out_rel_dir: str,
@@ -101,9 +92,14 @@ def worker(
     model_nums: list[int] = [0, 1],
 ) -> list[dict]:
     clear_mem()
-    
+
     out_dir = Path(VOLUME_MOUNT) / out_rel_dir
     out_dir.mkdir(parents = True, exist_ok = True)
+
+    def calc_min_ipae(pae:np.ndarray, L: int) -> float:
+        min_target_binder_pae = np.min(pae[: L, L:])
+        min_binder_target_pae = np.min(pae[L:, : L])
+        return np.min([min_target_binder_pae, min_binder_target_pae])
 
     af2_binder_model = mk_afdesign_model(
         protocol = "binder",
@@ -112,20 +108,27 @@ def worker(
         use_initial_guess = use_initial_guess,
         use_templates = use_templates,
     )
-    
+
     results = []
-    for pdb_rel_path in pdb_rel_paths:
-        pdb_path = Path(VOLUME_MOUNT) / pdb_rel_path
+    for structure_rel_path in structure_rel_paths:
+        structure_path = Path(VOLUME_MOUNT) / structure_rel_path
+        filepath = structure_path
+        if "cif" in filepath.suffix:
+            with NamedTemporaryFile(suffix = ".pdb", delete = False) as tmp_file:
+                s = gemmi.read_structure(str(filepath))
+                s.setup_entities()
+                s.write_pdb(tmp_file.name)
+            filepath = Path(tmp_file.name)
         
         af2_binder_model.prep_inputs(
-            pdb_filename = str(pdb_path),
+            pdb_filename = str(filepath),
             chain = target_chain,
             binder_chain = binder_chain,
             use_binder_template = use_binder_template,
             rm_template_ic = rm_template_ic,
         )
         
-        binder_seq = get_binder_seq(pdb_path, binder_chain)
+        binder_seq = get_binder_seq(filepath, binder_chain)
         
         af2_binder_model.predict(
             binder_seq,
@@ -134,26 +137,30 @@ def worker(
             verbose = False,
         )
         
-        pred_pdb_name = f"{pdb_path.stem}.pdb"
+        pred_pdb_name = f"{structure_path.stem}.pdb"
         pred_pdb_path = out_dir / pred_pdb_name
         af2_binder_model.save_pdb(str(pred_pdb_path))
 
         result = {
-            "name": pdb_path.stem,
+            "name": structure_path.stem,
             "plddt": float(np.mean(af2_binder_model.aux["log"]["plddt"])),
             "pae": float(np.mean(af2_binder_model.aux["log"]["pae"])),
             "ptm": float(af2_binder_model.aux["log"]["ptm"]),
             "rmsd": float(af2_binder_model.aux["log"]["rmsd"]),
             "ipae": float(np.mean(af2_binder_model.aux["log"]["i_pae"])) * IPAE_NORMALIZATION_FACTOR,
-            "min_ipae": calc_min_ipae(af2_binder_model),
+            "min_ipae": calc_min_ipae(af2_binder_model.aux["pae"], af2_binder_model._target_len),
             "iptm": float(af2_binder_model.aux["log"]["i_ptm"]),
         }
         results.append(result)
         af2_binder_model.restart()
-    print(f"Finished batch of {len(pdb_rel_paths)} file(s).")
+    print(f"Finished batch of {len(structure_rel_paths)} file(s).")
+    return results
+
+
+@app.function(volumes = {VOLUME_MOUNT: vol}, timeout = 60 * 60 * 2)
+def save_metrics(results: list[dict], out_rel_dir: Path) -> None:
     metrics_save_filepath = Path(VOLUME_MOUNT).joinpath(out_rel_dir, "metrics.delta")
     pl.LazyFrame(results).collect().write_delta(metrics_save_filepath, mode = "append")
-    vol.commit()
 
 
 @app.local_entrypoint()
@@ -172,10 +179,10 @@ def main(
     num_recycles: int = 5,
     model_nums = [0, 1],
 ) -> None:
-    pdb_paths = list_pdbs.remote(path, glob_str)
-    num_files_to_process = len(pdb_paths)
+    structure_paths = list_pdbs.remote(path, glob_str)
+    num_files_to_process = len(structure_paths)
     
-    if not pdb_paths:
+    if not structure_paths:
         print(f"No PDB files found in {path} on volume '{VOLUME_NAME}'.")
         return
 
@@ -202,9 +209,12 @@ def main(
             num_recycles,
             model_nums,
         )
-        for batch in itertools.batched(pdb_paths, batch_size)
+        for batch in itertools.batched(structure_paths, batch_size)
     ]
 
-    list(worker.starmap(batched_tasks, order_outputs = False))
+    results = []
+    for r in worker.starmap(batched_tasks, order_outputs = False):
+        results.extend(r)
+    save_metrics.remote(results, out_rel_dir)
 
     return 0

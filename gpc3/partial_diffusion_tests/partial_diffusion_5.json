@@ -1,0 +1,11 @@
+{
+    "specification": {
+        "dialect": 2,
+	"input": "./test.pdb",
+	"contig" : "A1-108,/0,B1-291",
+        "select_fixed_atoms": "B1-291",
+        "select_unfixed_sequence": "A1-108",
+        "is_non_loopy": true,
+        "partial_t": 5
+    }
+}
